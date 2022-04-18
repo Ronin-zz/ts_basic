@@ -44,3 +44,17 @@ interface Book {
 }
 
 let book: Book = { name: '陆炳勋', price: 0 };
+
+interface Counter {
+  (x?: number, y?: number): void;
+  count: number;
+}
+
+function getCounter(): Counter {
+  let counter: Counter;
+  counter = function (x, y) {} as Counter;
+  counter.count = 0;
+  return counter;
+}
+
+console.log(getCounter().count);

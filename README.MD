@@ -193,3 +193,17 @@ let book: Book = { name: '陆炳勋', price: 0 };
 
 book.name = ''; // 无法分配到 "name" ，因为它是只读属性
 ```
+##### 3.4、接口形式的函数调用签名
+```ts
+interface Counter {
+  (x?: number, y?: number): void;
+  count: number;
+}
+
+function getCounter(): Counter {
+  let counter: Counter;
+  counter = function (x, y) {} as Counter;
+  counter.count = 0;
+  return counter;
+}
+```
