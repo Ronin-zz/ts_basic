@@ -71,3 +71,15 @@ interface IndexSign {
 let indexSign: IndexSign = ['1', '2'];
 
 // indexSign[0] = '3'; 只读
+
+interface ClassInterface {
+  currentTime: Date;
+}
+
+class Clock implements ClassInterface {
+  currentTime: Date = new Date();
+  constructor(h: number, m: number) {}
+}
+
+let clock = new Clock(1, 2);
+console.log(clock.currentTime);

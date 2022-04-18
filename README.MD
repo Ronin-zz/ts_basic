@@ -224,3 +224,18 @@ let indexSign: IndexSign = ['1', '2'];
 
 // indexSign[0] = '3'; 只读
 ```
+
+##### 3.6、类实现接口
+```ts
+interface ClassInterface {
+  currentTime: Date;
+}
+
+class Clock implements ClassInterface {
+  currentTime: Date = new Date();
+  constructor(h: number, m: number) {}
+}
+
+let clock = new Clock(1, 2);
+console.log(clock.currentTime);
+```
