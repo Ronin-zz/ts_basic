@@ -207,3 +207,20 @@ function getCounter(): Counter {
   return counter;
 }
 ```
+##### 3.5、可索引的类型
+```ts
+interface IndexLabel {
+  [index: string]: string;
+}
+
+let indexLabel: IndexLabel = { k: '123', b: '2' };
+let valItem = indexLabel['k']; // 可以通过索引获取值的正确类型为 string
+
+
+interface IndexSign {
+  readonly [index: number]: string;
+}
+let indexSign: IndexSign = ['1', '2'];
+
+// indexSign[0] = '3'; 只读
+```

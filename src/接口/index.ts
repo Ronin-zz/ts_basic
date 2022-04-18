@@ -58,3 +58,16 @@ function getCounter(): Counter {
 }
 
 console.log(getCounter().count);
+
+interface IndexLabel {
+  [index: string]: string;
+}
+let indexLabel: IndexLabel = { k: '123', b: '2' };
+
+let valItem = indexLabel['k']; // string
+interface IndexSign {
+  readonly [index: number]: string;
+}
+let indexSign: IndexSign = ['1', '2'];
+
+// indexSign[0] = '3'; 只读
