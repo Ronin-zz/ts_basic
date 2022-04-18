@@ -227,11 +227,13 @@ let indexSign: IndexSign = ['1', '2'];
 
 ##### 3.6、类实现接口
 ```ts
+// 定义一个接口
 interface ClassInterface {
   currentTime: Date;
   setTime(date: Date): Date;
 }
 
+// 定义一个类实现接口
 class Clock implements ClassInterface {
   currentTime: Date = new Date();
   constructor(h: number, m: number) {}
