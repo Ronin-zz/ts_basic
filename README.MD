@@ -229,13 +229,18 @@ let indexSign: IndexSign = ['1', '2'];
 ```ts
 interface ClassInterface {
   currentTime: Date;
+  setTime(date: Date): Date;
 }
 
 class Clock implements ClassInterface {
   currentTime: Date = new Date();
   constructor(h: number, m: number) {}
+  setTime(date: Date): Date {
+    return date;
+  }
 }
 
 let clock = new Clock(1, 2);
 console.log(clock.currentTime);
+console.log(clock.setTime(new Date()));
 ```
