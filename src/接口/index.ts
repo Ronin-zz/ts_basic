@@ -97,6 +97,15 @@ interface ClockInterface {
   tick(): void;
 }
 
+// interface ClockConstructor {
+//   new (hour: number, minute: number);
+// }
+
+// class Clock implements ClockConstructor {
+//   currentTime: Date;
+//   constructor(h: number, m: number) { }
+// }
+
 // 通过 ctor 进行检验类的 constructor 的类型是否符合标准
 function createClock(ctor: ClockContructor, hour: number, minute: number): ClockInterface {
   return new ctor(hour, minute);
