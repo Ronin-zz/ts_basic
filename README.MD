@@ -233,7 +233,7 @@ interface ClassInterface {
   setTime(date: Date): Date;
 }
 
-// 定义一个类实现接口
+// 定义一个类实现接口，接口描述了一个类的公共部分
 class Clock implements ClassInterface {
   currentTime: Date = new Date();
   constructor(h: number, m: number) {}
@@ -245,4 +245,34 @@ class Clock implements ClassInterface {
 let clock = new Clock(1, 2);
 console.log(clock.currentTime);
 console.log(clock.setTime(new Date()));
+
+// 当一个类实现了一个接口时，只对其实例部分进行类型检查。 constructor存在于类的静态部分，所以不在检查的范围内，可以通过创建构造函数传递参数作为参数进行检验类型
+// 定义一个接口，接口是构造函数类型
+interface ClockContructor {
+  new (hour: number, minute: number): ClockInterface;
+}
+interface ClockInterface {
+  tick(): void;
+}
+
+// 通过 ctor 进行检验类的 constructor 的类型是否符合标准
+function createClock(ctor: ClockContructor, hour: number, minute: number): ClockInterface {
+  return new ctor(hour, minute);
+}
+
+class DigitalClock implements ClockInterface {
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log('beep beep');
+  }
+}
+class AnalogClock implements ClockInterface {
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log('tick tock');
+  }
+}
+
+createClock(DigitalClock, 12, 12);
+createClock(AnalogClock, 12, 12);
 ```
