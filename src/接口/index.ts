@@ -89,14 +89,8 @@ let clock = new Clock(1, 2);
 console.log(clock.currentTime);
 console.log(clock.setTime(new Date()));
 
-// 定义一个接口，接口是构造函数类型
-interface ClockContructor {
-  new (hour: number, minute: number): ClockInterface;
-}
-interface ClockInterface {
-  tick(): void;
-}
-
+/* ------------------------------------------------------------------------------------- */
+/* 当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误， */
 // interface ClockConstructor {
 //   new (hour: number, minute: number);
 // }
@@ -106,7 +100,15 @@ interface ClockInterface {
 //   constructor(h: number, m: number) { }
 // }
 
-// 通过 ctor 进行检验类的 constructor 的类型是否符合标准
+// 我们应该直接操作类的静态部分。 看下面的例子，我们定义了两个接口， ClockConstructor为构造函数所用和ClockInterface为实例方法所用
+interface ClockContructor {
+  new (hour: number, minute: number): ClockInterface;
+}
+interface ClockInterface {
+  tick(): void;
+}
+
+// 为了方便我们定义一个构造函数 createClock，它用传入的类型创建实例。
 function createClock(ctor: ClockContructor, hour: number, minute: number): ClockInterface {
   return new ctor(hour, minute);
 }
