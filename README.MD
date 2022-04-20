@@ -193,7 +193,7 @@ let book: Book = { name: '陆炳勋', price: 0 };
 
 book.name = ''; // 无法分配到 "name" ，因为它是只读属性
 ```
-##### 3.4、接口形式的函数调用签名
+##### 3.4、接口形式的函数调用签名（混合类型）
 ```ts
 interface Counter {
   (x?: number, y?: number): void;
@@ -286,4 +286,38 @@ class AnalogClock implements ClockInterface {
 
 createClock(DigitalClock, 12, 12);
 createClock(AnalogClock, 12, 12);
+
+// ==================================================================================
+// 接口继承接口
+interface Parent {
+  name: string;
+}
+interface Color {
+  name_color: string;
+}
+
+interface Children extends Parent, Color {}
+
+let children: Children = { name: '123', name_color: '123' };
+// ==================================================================================
+// 接口继承类
+// 当一个接口继承了一个拥有私有的或受保护的成员类是，这个接口类型只能被这个类或其子类实现了
+class Control {
+  private state: any;
+}
+// SelectableControl 继承了具有私有属性的 Control 类，所以这个接口只能被 Control 的子类实现
+interface SelectableControl extends Control {
+  select(): void;
+}
+
+class Button extends Control implements SelectableControl {
+  select() {}
+}
+
+class TextBox extends Control {
+  select() {}
+}
+class Images extends Control implements SelectableControl {
+  select() {}
+}
 ```

@@ -128,3 +128,14 @@ class AnalogClock implements ClockInterface {
 
 createClock(DigitalClock, 12, 12);
 createClock(AnalogClock, 12, 12);
+
+interface Parent {
+  name: string;
+}
+interface Color {
+  name_color: string;
+}
+
+interface Children extends Parent, Color {}
+
+let children: Children = { name: '123', name_color: '123' };
