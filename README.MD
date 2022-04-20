@@ -321,3 +321,98 @@ class Images extends Control implements SelectableControl {
   select() {}
 }
 ```
+
+#### 4、类
+
+##### 4.1、类的修饰符
+```ts
+// public > protected > private
+// public 在哪里都可以访问
+// protected 在派生类中可以访问
+// private 只能在当前类的内部访问
+class PersonClass {
+  protected readonly age: number = 12;
+  // 构造函数也可以被标记成 protected。 这意味着这个类不能在包含它的类外被实例化，但是能被继承
+  public constructor(public readonly name: string) {
+    this.name = name;
+  }
+  sayHi() {
+    console.log(`Hi, ${this.name}`);
+  }
+}
+let personClass = new PersonClass('张三');
+
+// personClass.name = '李四'; error 只读
+```
+##### 4.2、类的静态属性(静态方法)
+```ts
+class Point {
+   static isAnl() {
+    return 'static Point is anl';
+  }
+  static origin = { x: 0, y: 0 };
+  constructor(private _x: number, private _y: number) {}
+}
+console.log(Point.origin);
+```
+
+##### 4.3、抽象类
+```ts
+// 抽象类可以有抽象方法或非抽象方法
+// 当一个类继承了抽象类，必须要实现抽象类中的所有抽象方法
+// 抽象类一般做为其它派生类的基类使用
+abstract class Animals {
+  constructor(private name: string) {
+    this.name = name;
+  }
+  abstract makeSound(): void; // 必须在派生类中实现
+  move(): void {
+    console.log('roaming the earch...');
+  }
+}
+
+class Cat extends Animals {
+  constructor(name: string) {
+    super(name);
+  }
+  makeSound(): void {
+    throw new Error('Method not implemented.');
+  }
+}
+```
+
+##### 4.4、把类当作接口
+```ts
+// 因为类可以创建出类型，所以你能够在允许使用接口的地方使用类。
+class PointClass {
+  x: number;
+  y: number;
+}
+
+interface Point3d extends PointClass {
+  z: number;
+}
+let point3d: Point3d = {
+  x: 1,
+  z: 0,
+  y: 0,
+}
+```
+
+##### 4.5、类的存取器
+```ts
+class SetClass {
+  private name!: string;
+
+  public setName(name: string): void {
+    this.name = name;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
+}
+let setClass: SetClass = new SetClass();
+setClass.setName('张三');
+console.log(setClass.getName());
+```
