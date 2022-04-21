@@ -1044,3 +1044,14 @@ type InstanceType<T extends abstract new (...args: any) => any> = T extends abst
 // 例子：
 type Is = InstanceType<new () => { name: string; age: number }>; // type Is = {name: string; age: number;}
 ```
+
+#### 21、ts 类型体操
+##### 21.1、infer 的妙用
+```ts
+// infer 最早出现在此 PR 中，表示在 extends 条件语句中待推断的类型变量。
+type DemoInfer<T> = T extends (...args: any) => infer R ? R : any;
+
+type Func = () => string;
+
+type UserEs = DemoInfer<Func>;
+```

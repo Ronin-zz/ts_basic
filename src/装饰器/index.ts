@@ -21,4 +21,3 @@ interface Us {
   age: number;
 }
 // 例子：
-type Is = InstanceType<new () => { name: string; age: number }>; // type Is = {name: string; age: number;}

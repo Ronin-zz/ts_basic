@@ -6,4 +6,6 @@
 
 // import './函数/index';
 
-import './装饰器/index';
+// import './装饰器/index';
+
+import './类型体操/index';
