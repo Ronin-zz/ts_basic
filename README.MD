@@ -829,6 +829,19 @@ export { ZipCodeValidator as mainValidator };
 ```ts
 // experimentalDecorators:true
 
+// 装饰器分为：类装饰器、方法装饰器、访问器装饰器、属性装饰器、参数装饰器
+// --类装饰器参数--：如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明。
+// --方法装饰器三个参数--：
+// 1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+// 2、成员的名字。
+// 3、成员的属性描述符。
+// --访问器装饰器3个参数--：
+// 1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+// 2、成员的名字。
+// 3、成员的属性描述符。
+// --属性装饰器2个参数--：
+// 1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+// 2、成员的名字。
 ```
 ##### 19.2、使用类装饰器
 ```ts
@@ -849,6 +862,24 @@ function sealed(value: string) {
 }
 
 @sealed('sealed')
+class Cloth {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+}
+```
+##### 19.4、使用多个装饰器
+```ts
+// 由上至下依次对装饰器表达式求值。
+// 求值的结果会被当作函数，由下至上依次调用。
+function sealed(value: string) {
+  return function (target: Function) {};
+}
+function desc(target: Function) {}
+
+@sealed('sealed')
+@desc
 class Cloth {
   greeting: string;
   constructor(message: string) {
