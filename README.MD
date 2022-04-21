@@ -420,12 +420,12 @@ console.log(setClass.getName());
 #### 5、函数
 ##### 5.1、函数的创建
 ```ts
-// 普通创建函数
+// 函数的声明
 function add(x: number, y: number): number {
   return x + y;
 }
 
-// 匿名函数
+// 函数的表达式
 let myFunc2 = function (x: number, y: number): number {
   return x + y;
 };
