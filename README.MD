@@ -416,3 +416,84 @@ let setClass: SetClass = new SetClass();
 setClass.setName('张三');
 console.log(setClass.getName());
 ```
+
+#### 5、函数
+##### 5.1、函数的创建
+```ts
+// 普通创建函数
+function add(x: number, y: number): number {
+  return x + y;
+}
+
+// 匿名函数
+let myFunc2 = function (x: number, y: number): number {
+  return x + y;
+};
+
+// 完整版函数
+let myFunc: (arr: Array<number>, val: number) => boolean;
+myFunc = function (arr: Array<number>, val: number): boolean {
+  return arr.includes(val);
+};
+```
+##### 5.2、函数的可选参数和默认参数
+```ts
+function search(val?: string) {
+  console.log(val);
+}
+
+function counts(number = 1) {
+  console.log(number);
+}
+```
+
+##### 5.3、剩余参数
+```ts
+function isParent(...args: number[]): string[] {
+  return args.join().split(',');
+}
+
+isParent(1, 2, 3);
+```
+
+##### 5.4、函数中的 this 指向
+```ts
+interface Dicker {
+  date: Date;
+  installs(): void;
+}
+
+let dicker: Dicker = {
+  date: new Date(),
+  installs: function (): void {
+    console.log(this);  // dicker
+  },
+};
+dicker.installs();
+
+//  错误示范
+let dicker: Dicker = {
+  date: new Date(),
+  installs: (): void => {
+    console.log(this); // error 包含箭头函数捕获 "this" 的全局值
+  },
+};
+```
+
+##### 5.5、函数的重载
+```ts
+function pickCard(x: string): string;
+
+function pickCard(x: number): number;
+
+function pickCard(x: string | number): any {
+  if (typeof x === 'string') {
+    return '1';
+  } else if (typeof x === 'number') {
+    return 1;
+  }
+}
+
+pickCard('1').concat();
+pickCard(1).toFixed(0);
+```
