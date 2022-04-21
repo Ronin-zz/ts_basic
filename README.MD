@@ -891,3 +891,156 @@ class Cloth {
   }
 }
 ```
+
+#### 20、ts内置的高级类型
+##### 20.1、Partial
+```ts
+// Partial：将泛型 T 中的所有属性转化为可选属性
+// 源码：
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+};
+// 例子：
+interface Us {
+  name:string;
+  age:number;
+}
+type User = Partial<Us>
+```
+##### 20.2、Required
+```ts
+// Required：将泛型 T 中的所有属性转化为必选属性
+// 源码：
+type Required<T> = {
+    [P in keyof T]-?: T[P];
+};
+// 例子：
+interface Us {
+  name? : string;
+  age? : number;
+}
+type User = Required<Us>
+```
+##### 20.3、Readonly
+```ts
+// Readonly：将泛型 T 中的所有属性转化为必选属性
+// 源码：
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+};
+// 例子：
+interface Us {
+  name? : string;
+  age? : number;
+}
+type User = Required<Us>
+```
+##### 20.4、Pick
+```ts
+// Pick：将泛型 T 中，捡出指定的属性组成新类型
+// 源码：
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+// 例子：
+interface Us {
+  name: string;
+  age: number;
+}
+type User = Pick<Us, 'age'>;
+```
+##### 20.5、Record
+```ts
+// Record：将泛型 T 中，捡出指定的属性组成新类型
+// 源码：
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+};
+// 例子：
+interface Us {
+  name: string;
+  age: number;
+}
+type User = Record<keyof Us, { age: number }>;
+
+/* 
+User 类型为
+type User = {
+  name: {
+    age: number;
+  };
+  age: {
+    age: number;
+  };
+}
+*/
+```
+##### 20.6、Exclude
+```ts
+// Exclude：将泛型 T 中，取到不是 T 类型中的元素的类型
+// 源码：
+type Exclude<T, U> = T extends U ? never : T;
+// 例子：
+type Is = Exclude<'a' | 'b' | 'c', 'a' | 'b'>; // c
+```
+##### 20.7、Extract
+```ts
+// Extract：将泛型 T 中，取到是 T 类型中的元素的类型
+// 源码：
+type Extract<T, U> = T extends U ? never : T;
+// 例子：
+type Is = Extract<'a' | 'b' | 'c', 'a' | 'b'>; // a b
+```
+##### 20.8、Omit
+```ts
+// Omit：从泛型 T 中提取不在第二个泛型中的值
+// 源码：
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+// 例子：
+type Is = Omit<{ name: string; age: number }, 'age'>; 
+/* 
+type Is = {
+  name: string;
+}
+*/
+```
+##### 20.8、NonNullable
+```ts
+// NonNullable：获取多个不为 null 和 undefined 的泛型
+// 源码：
+type NonNullable<T> = T extends null | undefined ? never : T;
+// 例子：
+type Is = NonNullable<'name' | null | undefined>; // type Is = "name"
+```
+##### 20.9、Parameters
+```ts
+// Parameters：获取函数参数返回一个元组类型
+// 源码：
+type Parameters<T extends (...args: any) => any> = T extends (...args: infer P) => any ? P : never;
+// 例子：
+type Is = Parameters<(val: string, name: number) => void>; // type Is = [val: string, name: number]
+```
+##### 20.10、ConstructorParameters
+```ts
+// ConstructorParameters：获取构造函数传递的参数返回一个元组类型
+// 源码：
+type ConstructorParameters<T extends abstract new (...args: any) => any> = T extends abstract new (...args: infer P) => any ? P : never;
+// 例子：
+type Is = ConstructorParameters<new (name: string) => any>; // type Is = [name: string]
+```
+##### 20.11、ReturnType
+```ts
+// ReturnType：获取函数返回结果组成一个类型
+// 源码：
+type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
+// 例子：
+type Is = ReturnType<() => string | number>; // type Is = string | number
+```
+##### 20.12、InstanceType
+```ts
+// InstanceType：获取构造函数的返回值类型
+// 源码：
+type InstanceType<T extends abstract new (...args: any) => any> = T extends abstract new (...args: any) => infer R ? R : any;
+// 例子：
+type Is = InstanceType<new () => { name: string; age: number }>; // type Is = {name: string; age: number;}
+```
