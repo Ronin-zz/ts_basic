@@ -497,3 +497,362 @@ function pickCard(x: string | number): any {
 pickCard('1').concat();
 pickCard(1).toFixed(0);
 ```
+
+##### 5.6、接口定义函数
+```ts
+interface FuncInters {
+  (x: number, isNum: boolean): number;
+}
+
+let func: FuncInters = (x: number, val: boolean): number => (val ? x : 1);
+```
+
+#### 6、泛型
+##### 6.1、泛型的简单应用
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+identity<string>('1');
+identity(1);
+```
+
+#### 6.2、带有调用签名的对象字面量来定义泛型函数
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+// 下面是通过带有调用签名的方式进行定义泛型函数
+let myIdentity: { <T>(arg: T): T } = identity;
+```
+
+#### 6.3、泛型接口
+```ts
+interface Family<U> {
+  (x: number): U;
+}
+
+let family: Family<number> = (x) => {
+  return x;
+};
+```
+
+#### 6.4、泛型类
+```ts
+class Air<K> {
+  color!: K;
+}
+
+let demos = new Air<string>();
+demos.color = 'red';
+```
+
+#### 6.5、泛型约束
+```ts
+function test<T extends { name: string }>(val: T) {
+  if ((val.name = '1')) {
+    console.log(val.name);
+  }
+}
+
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+getProperty(x, 'a'); // okay
+getProperty(x, 'm'); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
+```
+
+#### 6.6、泛型使用类类型
+```ts
+// 下面两个c都表示类类型
+
+// c 表示一个类
+function createClassEs<T>(c: { new (): T }) {
+  return new c();
+}
+
+// c 表示一个类
+function createArrowFunc<U>(c: new () => U): U {
+  return new c();
+}
+```
+
+#### 7、枚举
+##### 7.1、数字枚举
+```ts
+enum HttpStatus {
+  Success = 200,
+  NotFound = 404,
+  Failed = 500,
+}
+
+function judgeHttpStatus(httpStatus: HttpStatus) {
+  switch (httpStatus) {
+    case HttpStatus.Success:
+      console.log('success');
+      break;
+    case HttpStatus.NotFound:
+      console.log('not found');
+      break;
+    case HttpStatus.Failed:
+      console.log('failed');
+      break;
+    default:
+      console.log('default');
+  }
+}
+```
+
+##### 7.2、字符串枚举
+```ts
+enum StringStr {
+  Success = 'success',
+  NotFound = 'not found',
+}
+```
+
+##### 7.3、异构枚举
+```ts
+enum DiverseEnum {
+  Success = 'success',
+  NotFound = 404,
+}
+```
+##### 7.4、外部枚举
+```ts
+declare enum DiverseEnum {
+  Success = 'success',
+  NotFound = 404,
+}
+```
+##### 7.4、枚举计算
+```ts
+enum ComputedEnum {
+  A = 0,
+  B = A * 2,
+}
+```
+
+#### 8、联合类型
+```ts
+let num: string | number;
+```
+
+#### 9、交叉类型
+```ts
+let num: string & number;
+```
+
+#### 10、自定义类型保护
+```ts
+function isString(val: string | string[]): val is string {
+  return typeof val === 'string';
+}
+
+let sTest = '123';
+
+if (isString(sTest)) {
+  s.length;
+} else {
+  s.slice(1);
+}
+```
+
+#### 11、typeof 类型保护
+```ts
+function isNumber(val: string | number) {
+  if (typeof val === 'string') {
+  } else {
+    val.toFixed(0);
+  }
+}
+```
+#### 12、instanceof 类型保护
+```ts
+interface Bird {
+  cry(): string;
+}
+
+class RedBird implements Bird {
+  cry() {
+    return 'red bird';
+  }
+}
+
+class BlueBird implements Bird {
+  cry() {
+    return 'blue bird';
+  }
+}
+
+function getRandomBird(): Bird {
+  const randomBird = Math.random();
+  if (randomBird < 0.5) {
+    return new RedBird();
+  } else {
+    return new BlueBird();
+  }
+}
+
+let bird: Bird = getRandomBird();
+
+if (bird instanceof RedBird) {
+  bird.cry();
+} else {
+  console.log('blue bird');
+}
+```
+
+
+#### 13、类型别名
+##### 13.1、普通类型别名
+```ts
+type TypeStringOrNumber = string | number;
+
+```
+
+##### 13.2、类型别名定义函数
+```ts
+// 类型别名定义方法
+type FuncReturnValString = () => string;
+
+let stringFunc: FuncReturnValString;
+
+stringFunc = () => {
+  return '';
+};
+```
+##### 13.3、类型别名定义泛型函数
+```ts
+type ModeFunction<T> = (...args: T[]) => T;
+
+let mode: ModeFunction<number>;
+
+mode = (...args) => {
+  return args[0];
+};
+```
+##### 13.4、我们也可以使用类型别名来在属性里引用自己
+```ts
+type Tree<T> = {
+  value: T;
+  left: Tree<T>;
+  right: Tree<T>;
+};
+```
+
+#### 14、索引类型
+##### 14.1、索引类型查询
+```ts
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map((n) => o[n]);
+}
+
+let obj = { a: 1, b: 2, c: 3 };
+
+pluck(obj, ['b', 'a']);
+```
+
+##### 14.2、索引访问操作符
+```ts
+//  T[K]，就是索引访问的操作符
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map((n) => o[n]);
+}
+
+let obj = { a: 1, b: 2, c: 3 };
+
+pluck(obj, ['b', 'a']);
+```
+
+#### 15、映射类型
+```ts
+// 一个常见的任务是将一个已知的类型每个属性都变为可选的：
+// 那么对于索引类型，如何做运算并产生新的类型呢？
+type Demos<T> = {
+  readonly [P in keyof T]?: T[P];
+};
+
+interface PersonInfo {
+  name: string;
+  age: number;
+}
+
+type PersonInfoDemos = Demos<PersonInfo>;
+```
+#### 16、重映射
+```ts
+interface PersonInfo {
+  name: string;
+  age: number;
+}
+type fileRedirect<T> = {
+  [key in keyof T as `get${Capitalize<key & string>}`]: T[key];
+};
+type Res = fileRedirect<PersonInfo>;
+// Res 类型为
+// type Res = {
+//    getName: string;
+//    getAge: number;
+// }
+```
+
+#### 17、类型运算
+```ts
+type IsString<T> = T extends string ? true : false;
+
+type isBole = IsString<PersonInfo>;
+```
+
+#### 18、模块
+```ts
+export const num:number = 123;
+
+export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+    }
+}
+// 导出语句很便利，因为我们可能需要对导出的部分重命名
+export { ZipCodeValidator };
+export { ZipCodeValidator as mainValidator };
+```
+
+#### 19、装饰器
+##### 19.1、使用装饰器需要开启
+```ts
+// experimentalDecorators:true
+
+```
+##### 19.2、使用类装饰器
+```ts
+function sealed(target: Function) {}
+
+@sealed
+class Cloth {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+}
+```
+##### 19.3、使用类装饰器工厂
+```ts
+function sealed(value: string) {
+  return function (target: Function) {};
+}
+
+@sealed('sealed')
+class Cloth {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+}
+```

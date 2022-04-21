@@ -41,7 +41,7 @@ interface Dicker {
 let dicker: Dicker = {
   date: new Date(),
   installs: (): void => {
-    console.log(this); // error 包含箭头函数捕获 "this" 的全局值
+    // console.log(this); // error 包含箭头函数捕获 "this" 的全局值
   },
   createCardPicker: function (this: Dicker) {
     return () => {
@@ -51,6 +51,7 @@ let dicker: Dicker = {
       return { suit: this.suits[pickedSuit], card: pickedCard % 13 };
     };
   },
+  suits: [],
 };
 dicker.installs();
 
@@ -58,14 +59,14 @@ interface UIElement {
   addClickListener(onclick: (this: void, e: Event) => void): void;
 }
 class Handler {
-  info: string;
+  info!: string;
   onClickBad(this: void, e: Event) {
     // oops, used this here. using this callback would crash at runtime
     // this.info = e.message;
   }
   onClickGood = (e: Event) => {
     // 可以使用 this
-    this.info = e.message;
+    // this.info = e.message;
   };
 }
 let h = new Handler();
@@ -92,3 +93,9 @@ function pickCard(x: string | number): any {
 
 pickCard('1').concat();
 pickCard(1).toFixed(0);
+
+interface FuncInters {
+  (x: number, isNum: boolean): number;
+}
+
+let func: FuncInters = (x: number, val: boolean): number => (val ? x : 1);
