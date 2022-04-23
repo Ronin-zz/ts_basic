@@ -39,3 +39,9 @@ function createPromise(): Promise<ResponseDate<GoodsLists[]>> {
     });
   });
 }
+
+type ArrToObject<T extends readonly any[]> = {
+  [P in T[number]]: P;
+};
+const arrs = ['12', 'js', 'javascript'] as const;
+type demos = ArrToObject<typeof arrs>;

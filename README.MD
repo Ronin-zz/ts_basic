@@ -1055,3 +1055,13 @@ type Func = () => string;
 
 type UserEs = DemoInfer<Func>;
 ```
+
+##### 21.2、 [P in T[number]]
+```ts
+// 实现数组转对象类型
+type ArrToObject<T extends readonly any[]> = {
+  [P in T[number]]: P;
+};
+const arrs = ['12', 'js', 'javascript'] as const;
+type demos = ArrToObject<typeof arrs>;
+```
